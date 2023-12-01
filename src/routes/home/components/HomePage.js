@@ -1,31 +1,30 @@
+const T = require('prop-types');
 const { default: Styled } = require('styled-components');
-const { default: DuckImage } = require('../assets/duck.jpg');
 const { default: Typography } = require('@mui/material/Typography');
+const { default: Button } = require('@mui/material/Button');
 
 const internals = {};
 
-module.exports = () => {
+module.exports = ({ audioContext, onInitialize }) => {
 
-    const { Image, HomepageContainer, WelcomeMessage } = internals;
+    const { Container } = internals;
+
+    const isReady = !!audioContext;
 
     return (
-        <HomepageContainer>
-            <WelcomeMessage>Welcome!</WelcomeMessage>
-            <Image
-                alt='This is a duck, because Redux!'
-                src={DuckImage}
-            />
-        </HomepageContainer>
+        <Container>
+            <Button variant='contained' onClick={onInitialize}>Power</Button>
+            <Button variant='contained' disabled={!isReady} onClick={() => audioContext.playTone()}>Play</Button>
+        </Container>
     );
 };
 
-internals.Image = Styled.img`
-    display: block;
-    width: 120px;
-    margin: 1.5rem auto;
-`;
+module.exports.propTypes = {
+    audioContext: T.object,
+    onInitialize: T.func.isRequired
+};
 
-internals.HomepageContainer = Styled.div`
+internals.Container = Styled.div`
     align-self: center;
     margin: auto;
 `;
