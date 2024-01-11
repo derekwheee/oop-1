@@ -18,12 +18,11 @@ module.exports = ({ audioContext, onInitialize, onKeydown, onKeyup }) => {
                     value={!!audioContext}
                     exclusive
                     onChange={onInitialize}
-                    aria-label='text alignment'
                 >
-                    <PowerSwitchButton disableRipple value={false} aria-label='left aligned'>
+                    <PowerSwitchButton disableRipple value={false}>
                         OFF
                     </PowerSwitchButton>
-                    <PowerSwitchButton disableRipple value={true} aria-label='centered'>
+                    <PowerSwitchButton disableRipple value={true}>
                         ON
                     </PowerSwitchButton>
                 </PowerSwitch>
@@ -47,6 +46,7 @@ internals.Container = Styled.div`
     width: 100%;
     align-self: center;
     margin: auto;
+    background: #666;
 `;
 
 internals.WelcomeMessage = Styled(Typography).attrs({ variant: 'h4', align: 'center' })`
