@@ -27,8 +27,8 @@ module.exports = function HomePageContainer() {
         }
         else {
             const oscillator = new OscillatorNode(audioContext, {
-                frequency: 100,
-                type: 'square'
+                frequency: FREQUENCY[note] * (2 ** (Number(octave) - 1)),
+                type: 'sine'
             });
             const gainNode = new GainNode(audioContext);
 
@@ -43,14 +43,14 @@ module.exports = function HomePageContainer() {
             };
         }
 
-        const frequency = FREQUENCY[note] * (2 ** (Number(octave) - 1));
-
         time = time || audioContext.currentTime;
 
-        envelope.oscillator.frequency.value = frequency;
         envelope.gain.cancelScheduledValues(time);
-        envelope.gain.setValueAtTime(0, time);
-        envelope.gain.linearRampToValueAtTime(1, time + attack);
+
+        if (envelope.gain.value === 0) {
+            envelope.gain.setValueAtTime(0, time);
+            envelope.gain.linearRampToValueAtTime(0.5, time + attack);
+        }
 
         setEnvelopes({
             ...envelopes,
